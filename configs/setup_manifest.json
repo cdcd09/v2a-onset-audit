@@ -1,0 +1,29 @@
+{
+  "files": {
+    "metadata/benchmark_266.csv": {
+      "bytes": 27394,
+      "sha256": "d7460b7188073909365097c5a8cfb8a2a8dad199185db06004ed8274f5bcf3da"
+    },
+    "metadata/gh_test_ids.txt": {
+      "bytes": 5398,
+      "sha256": "162cce800a7cc2d8efe247f2ab1877918772d98542a451c2eac342c795c043eb"
+    },
+    "metadata/gh_validation_ids.txt": {
+      "bytes": 3212,
+      "sha256": "b079601445bd28a2531fd1c19c0d900db49496c04798bfee2f173449a448ae33"
+    },
+    "assets/greatest_hits_annotations.tar": {
+      "bytes": 522240,
+      "sha256": "71110450d6a3242018af0d4b763fc731c225340b61fbdee5e463462f99884d94"
+    },
+    "assets/greatest_hits_annotations.manifest.json": {
+      "bytes": 43432,
+      "sha256": "816baf76047c6b16fb0a6703a7e19110ae4959f113596230a7f598dc2ebf14f9"
+    },
+    "assets/audio_manifest.json": {
+      "bytes": 90176,
+      "sha256": "f7283a9e54ebae3f9c622f23d8631306907a724cc5fb7828dcd3e413bd471eba"
+    }
+  },
+  "scope": "Exact metadata and asset-index revision paired with this code release."
+}

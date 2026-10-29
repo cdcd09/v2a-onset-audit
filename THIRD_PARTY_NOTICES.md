@@ -1,0 +1,7 @@
+# Third-party attribution
+
+- CondFoleyGen: event-onset detector and historical NMS adaptation in `code/eval/onset_metrics.py`. Copyright (c) 2023 Yuexi Du; MIT text in `third_party/condfoleygen_LICENSE.txt`. Source: https://github.com/XYPB/CondFoleyGen.
+- MMAudio: experiment architecture snapshot in `code/mmaudio/model/` and `code/mmaudio/ext/`. Copyright (c) 2024 Sony Research; MIT text in `third_party/mmaudio_LICENSE.txt`. Source: https://github.com/hkchengrex/MMAudio. The snapshot includes study-specific student and auxiliary-onset modules; file hashes are recorded in `verification/model_source_sha256.json`.
+- Greatest Hits: companion annotation assets originate from the Greatest Hits dataset, licensed CC BY 4.0 by its project. Credit Andrew Owens and collaborators, *Visually Indicated Sounds*, CVPR 2016. Project: https://andrewowens.com/vis/. These annotations are delivered in the accompanying data package, not claimed as newly authored here.
+
+Original source comments also attribute component implementations to DiT, OpenAI GLIDE, Stability AI sd3-ref, Black Forest Labs Flux, and flow-matching. Those comments are retained in the architecture snapshot. The top-level code license does not change terms for source media, external checkpoints, feature extractors, codecs, or vocoders. Consult their respective upstream releases before obtaining or redistributing those separate assets.

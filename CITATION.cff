@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying paper when using these evaluation assets."
+type: software
+title: "Training Refines Onset Placement but Erodes Event Correspondence: A Full-Trajectory Audit of Video-to-Audio Onset Alignment — Evaluation Code"
+authors:
+  - family-names: Byun
+    given-names: JoonHo
+  - family-names: Kim
+    given-names: Taegon
+  - family-names: Park
+    given-names: Juyeon
+  - family-names: Park
+    given-names: Unsang
+version: 0.1.0
+repository-code: "https://github.com/cdcd09/v2a-onset-audit"
+abstract: "Reference event-onset scoring, detector-free envelope measurements, annotation audits, and two-endpoint threshold sensitivity for video-to-audio evaluation."
+keywords:
+  - video-to-audio
+  - onset alignment
+  - evaluation
+  - reproducibility
+# Maintainers: add the paper DOI after publication.
+# The companion dataset URL is pending; no DOI is inferred.

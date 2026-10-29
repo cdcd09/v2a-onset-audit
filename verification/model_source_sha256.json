@@ -1,0 +1,30 @@
+{
+  "model/networks.py": {
+    "sha256": "b554199604ba477aa1d1120670837f235ed7c1eaf3637dbc8fad7eb96ddc6088",
+    "source": "experiment architecture snapshot, derived from Sony Research MMAudio"
+  },
+  "model/embeddings.py": {
+    "sha256": "dec07f25041a8d50d3c8755c771f25207b8c337363703fc4a7466b58a2659a5b",
+    "source": "experiment architecture snapshot, derived from Sony Research MMAudio"
+  },
+  "model/low_level.py": {
+    "sha256": "7f6720816dc544754c4bcb4ac044b2e8827f1478a3d59f48dd5e68adcea84746",
+    "source": "experiment architecture snapshot, derived from Sony Research MMAudio"
+  },
+  "model/transformer_layers.py": {
+    "sha256": "4008194c99beb369a35b3c711271b508a380b4897904093027445a786e23af4e",
+    "source": "experiment architecture snapshot, derived from Sony Research MMAudio"
+  },
+  "model/sequence_config.py": {
+    "sha256": "7618bb604a5500f7f3d2242dceeb68993224e37e9f75d66c542ae44e5bf161a3",
+    "source": "experiment architecture snapshot, derived from Sony Research MMAudio"
+  },
+  "model/flow_matching.py": {
+    "sha256": "4118b42c21f82d6cea0b909cdd79fa476de08975c54dbb08b8409f10ab156569",
+    "source": "experiment architecture snapshot, derived from Sony Research MMAudio"
+  },
+  "ext/rotary_embeddings.py": {
+    "sha256": "ffcc94bb3459411b6ada2659d68b5874c7c96f4747d601c60978f5a495c16f18",
+    "source": "experiment architecture snapshot, derived from Sony Research MMAudio"
+  }
+}

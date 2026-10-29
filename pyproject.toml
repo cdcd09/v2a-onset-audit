@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "v2a-onset-audit"
+version = "0.1.0"
+description = "Reproducibility code for the video-to-audio onset trajectory audit"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "numpy==1.26.4", "scipy==1.10.1", "librosa==0.10.2.post1",
+  "soundfile==0.13.1", "numba==0.58.1", "matplotlib==3.6.3"
+]
+
+[project.optional-dependencies]
+models = ["torch==2.6.0", "einops==0.8.1", "torchdiffeq==0.2.5", "safetensors==0.5.3"]
+ema = ["nitrous-ema==0.0.1", "omegaconf==2.3.0"]
+
+[tool.setuptools]
+package-dir = {"" = "code"}
+py-modules = ["config", "validation"]
+
+[tool.setuptools.packages.find]
+where = ["code"]

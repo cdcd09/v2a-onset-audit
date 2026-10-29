@@ -1,0 +1,113 @@
+{
+ "n_clips_complete_pair": 265,
+ "n_clips_incomplete": 1,
+ "clips_incomplete": [
+  "r4EiF70842U_000080"
+ ],
+ "usability": {
+  "both": 217,
+  "neither": 30,
+  "split": 18,
+  "observed_agreement": 0.9321,
+  "cohen_kappa": 0.729,
+  "released_onsets_on_neither": 166,
+  "released_onsets_on_split": 154
+ },
+ "n_onsets_on_both_usable": {
+  "gt_release": 1896,
+  "lane_A": 1855,
+  "lane_B": 1848
+ },
+ "agreement": {
+  "A_vs_B@50": {
+   "P": 0.9686,
+   "R": 0.965,
+   "F": 0.9668,
+   "matched": 1790,
+   "n_ref": 1855,
+   "n_est": 1848,
+   "median_abs_dt_ms": 12.7,
+   "median_signed_dt_ms": 0.0
+  },
+  "A_vs_B@100": {
+   "P": 0.9908,
+   "R": 0.9871,
+   "F": 0.9889,
+   "matched": 1831,
+   "n_ref": 1855,
+   "n_est": 1848,
+   "median_abs_dt_ms": 12.7,
+   "median_signed_dt_ms": 0.0
+  },
+  "A_vs_B@300": {
+   "P": 0.9924,
+   "R": 0.9887,
+   "F": 0.9905,
+   "matched": 1834,
+   "n_ref": 1855,
+   "n_est": 1848,
+   "median_abs_dt_ms": 12.7,
+   "median_signed_dt_ms": 0.0
+  },
+  "release_vs_A@50": {
+   "P": 0.9784,
+   "R": 0.9573,
+   "F": 0.9677,
+   "matched": 1815,
+   "n_ref": 1896,
+   "n_est": 1855,
+   "median_abs_dt_ms": 12.3,
+   "median_signed_dt_ms": 0.5
+  },
+  "release_vs_A@100": {
+   "P": 0.9935,
+   "R": 0.972,
+   "F": 0.9827,
+   "matched": 1843,
+   "n_ref": 1896,
+   "n_est": 1855,
+   "median_abs_dt_ms": 12.5,
+   "median_signed_dt_ms": 0.3
+  },
+  "release_vs_A@300": {
+   "P": 0.9935,
+   "R": 0.972,
+   "F": 0.9827,
+   "matched": 1843,
+   "n_ref": 1896,
+   "n_est": 1855,
+   "median_abs_dt_ms": 12.5,
+   "median_signed_dt_ms": 0.3
+  },
+  "release_vs_B@50": {
+   "P": 0.9794,
+   "R": 0.9546,
+   "F": 0.9669,
+   "matched": 1810,
+   "n_ref": 1896,
+   "n_est": 1848,
+   "median_abs_dt_ms": 12.85,
+   "median_signed_dt_ms": 1.9
+  },
+  "release_vs_B@100": {
+   "P": 0.9946,
+   "R": 0.9694,
+   "F": 0.9818,
+   "matched": 1838,
+   "n_ref": 1896,
+   "n_est": 1848,
+   "median_abs_dt_ms": 13.1,
+   "median_signed_dt_ms": 1.85
+  },
+  "release_vs_B@300": {
+   "P": 0.9946,
+   "R": 0.9694,
+   "F": 0.9818,
+   "matched": 1838,
+   "n_ref": 1896,
+   "n_est": 1848,
+   "median_abs_dt_ms": 13.1,
+   "median_signed_dt_ms": 1.85
+  }
+ }
+}

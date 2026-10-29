@@ -1,0 +1,81 @@
+{
+ "meta": {
+  "noise": "model",
+  "n_clips": 243,
+  "unmixed_reference": {
+   "n_clips": 243,
+   "n_onsets": 2503,
+   "osz": {
+    "prominence": 6.07904,
+    "control_prominence": 0.053654,
+    "contrast": 113.301,
+    "lag_ms": 10.0
+   },
+   "rawosz": {
+    "prominence": 17.730371,
+    "control_prominence": 0.142076,
+    "contrast": 124.795,
+    "lag_ms": 10.0
+   }
+  }
+ },
+ "conditions": [
+  {
+   "target_control": 0.089,
+   "gain": 0.625,
+   "achieved_control": 0.089823,
+   "target_reached": true,
+   "iterations": 4,
+   "osz": {
+    "prominence": 3.835894,
+    "control_prominence": 0.089823,
+    "contrast": 42.705,
+    "lag_ms": 20.0
+   },
+   "rawosz": {
+    "prominence": 6.028297,
+    "control_prominence": 0.098686,
+    "contrast": 61.086,
+    "lag_ms": 10.0
+   }
+  },
+  {
+   "target_control": 0.143,
+   "gain": 2.125,
+   "achieved_control": 0.143355,
+   "target_reached": true,
+   "iterations": 7,
+   "osz": {
+    "prominence": 3.219447,
+    "control_prominence": 0.143355,
+    "contrast": 22.458,
+    "lag_ms": 20.0
+   },
+   "rawosz": {
+    "prominence": 3.746033,
+    "control_prominence": 0.104792,
+    "contrast": 35.747,
+    "lag_ms": 20.0
+   }
+  },
+  {
+   "target_control": 0.191,
+   "gain": 5.5,
+   "achieved_control": 0.19192,
+   "target_reached": true,
+   "iterations": 7,
+   "osz": {
+    "prominence": 2.410385,
+    "control_prominence": 0.19192,
+    "contrast": 12.559,
+    "lag_ms": 20.0
+   },
+   "rawosz": {
+    "prominence": 2.426833,
+    "control_prominence": 0.109709,
+    "contrast": 22.121,
+    "lag_ms": 20.0
+   }
+  }
+ ]
+}

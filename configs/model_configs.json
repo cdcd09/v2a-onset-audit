@@ -1,0 +1,69 @@
+{
+  "vanilla": {
+    "model": "small_16k",
+    "kwargs": {},
+    "inference_student_logits": false
+  },
+  "curated": {
+    "model": "small_16k",
+    "kwargs": {},
+    "inference_student_logits": false
+  },
+  "syncfreeze": {
+    "model": "small_16k",
+    "kwargs": {},
+    "inference_student_logits": false
+  },
+  "stage1freeze": {
+    "model": "small_16k",
+    "kwargs": {
+      "use_student": true,
+      "student_dim": 1,
+      "student_seq_len": 392,
+      "student_position": "B",
+      "student_alpha_init": 1.0
+    },
+    "inference_student_logits": false,
+    "note": "Historical main grid uses the learned empty student condition; separate stage1freeze_logit controls inject logits.",
+    "training_intervention": {
+      "freeze_student_with_sync": true,
+      "freeze_sync_at": 20000,
+      "description": "Gradient-zeroing hooks; do not imply immediate AdamW parameter stationarity."
+    }
+  },
+  "fullstack": {
+    "model": "small_16k",
+    "kwargs": {
+      "use_student": true,
+      "student_dim": 1,
+      "student_seq_len": 392,
+      "student_position": "B",
+      "use_aux_onset_loss": true,
+      "student_alpha_init": 1.0
+    },
+    "inference_student_logits": true,
+    "training_intervention": {
+      "freeze_student_with_sync": true,
+      "freeze_sync_at": 20000,
+      "description": "Gradient-zeroing hooks; do not imply immediate AdamW parameter stationarity."
+    }
+  },
+  "stage1freeze_logit": {
+    "model": "small_16k",
+    "kwargs": {
+      "use_student": true,
+      "student_dim": 1,
+      "student_seq_len": 392,
+      "student_position": "B",
+      "student_alpha_init": 1.0
+    },
+    "inference_student_logits": true,
+    "weight_alias": "stage1freeze",
+    "note": "Separate inference control; same architecture/weights, supplied student logits.",
+    "training_intervention": {
+      "freeze_student_with_sync": true,
+      "freeze_sync_at": 20000,
+      "description": "Gradient-zeroing hooks; do not imply immediate AdamW parameter stationarity."
+    }
+  }
+}
