@@ -40,8 +40,11 @@ freezing; the paper distinguishes raw parameter checks from EMA behavior.
 
 Run IDs are `vanilla`, `curated`, `syncfreeze`, `stage1freeze`, and `fullstack`.
 `stage1freeze` uses a student-capable architecture, but its historical GH/V266 generated-audio
-grid did not inject onset logits. `stage1freeze_logit` is a separate same-weight inference
-control. `fullstack` uses logits. Preserve these distinctions when comparing conditions.
+grid did not inject onset logits. Its VGGSound distributional-quality cache did use logits:
+these two metric axes share weights but differ in inference conditioning.
+`inference_student_logits` in the configuration file describes the GH/V266 condition.
+`stage1freeze_logit` is a separate same-weight inference control. `fullstack` uses logits
+throughout. Preserve these distinctions when comparing conditions.
 
 `mmaudio.utils.latent_inference.sample_latents` provides a 25-step Euler sampler for
 already-computed CLIP, Synchformer, text, and optional student features. It returns audio

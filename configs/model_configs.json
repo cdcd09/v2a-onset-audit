@@ -24,7 +24,7 @@
       "student_alpha_init": 1.0
     },
     "inference_student_logits": false,
-    "note": "Historical main grid uses the learned empty student condition; separate stage1freeze_logit controls inject logits.",
+    "note": "The historical GH/V266 audio grid uses the learned empty student condition; the VGGSound quality cache uses logits. Separate stage1freeze_logit controls inject logits at the same weights.",
     "training_intervention": {
       "freeze_student_with_sync": true,
       "freeze_sync_at": 20000,

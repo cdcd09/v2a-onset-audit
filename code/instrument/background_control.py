@@ -3,11 +3,12 @@
 The contrast ratio could in principle be reporting how dense and loud a model's
 output is rather than how well it aligns: the reference recordings are quiet
 studio impacts and score 113, while open-domain models that fill the space
-between events score low. This control separates the two.
+between events score low. This control measures contrast at matched control
+response, while retaining the instrument's alignment and background components.
 
 We add background *to the reference audio* until its control-anchor response
 matches a model's, then measure contrast again. If the reference still exceeds
-the model at matched background, the deficit is not a background-level effect.
+the model at matched background, background level alone does not explain the deficit.
 
 Three design choices make the control tight:
 
@@ -16,7 +17,8 @@ Three design choices make the control tight:
                       is included; adding to the envelope would not test it
   the model's own     background is cut from the model's generated audio at
   background          least 500 ms from any reference onset and tiled with a
-                      5 ms crossfade -- literally what the control anchors see
+                      5 ms crossfade; clips with less than one second of eligible
+                      background fall back to the whole generated waveform
   one global gain     a single scalar for the whole split, bisected to hit the
                       target within 2%; per-clip gains would add a degree of
                       freedom that could be tuned
@@ -24,9 +26,9 @@ Three design choices make the control tight:
 A white-noise condition is available as a null: it answers whether *any* added
 energy disturbs the measure, or specifically the structure the model produces.
 
-Note that additive background moves the ratio (E+b)/(B+b) toward one from
-either side, so a contrast below one -- as two public checkpoints show -- cannot
-be produced by adding background at all.
+A uniform positive term added equally to E and B moves (E+b)/(B+b) toward
+one and cannot turn E/B > 1 into a ratio below one. This algebraic observation
+does not describe every structured waveform mixture.
 
 Usage
 -----

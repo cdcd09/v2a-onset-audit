@@ -14,9 +14,8 @@ at least 500 ms from any reference onset. Three quantities follow:
     control_prominence  the same for the control curve
     contrast            prominence / control_prominence
 
-`contrast` is the quantity Tab. 5 reports. It is a ratio, so a global gain on
-the waveform leaves it unchanged, and a value below one means the envelope does
-not respond more strongly at annotated onsets than away from them.
+`contrast` is the quantity Tab. 5 reports. A value below one means the pooled
+envelope response is weaker at annotated onsets than at control anchors.
 
 Two envelope variants are computed side by side:
 
@@ -152,7 +151,6 @@ def main():
     onsets, inventory = C.preflight(a.split, a.gen_dir, a.suffix)
     r = measure(a.gen_dir, onsets, a.suffix, a.workers, a.keep_curves)
     r["input_inventory"] = inventory
-    txt = json.dumps(r, indent=1)
     if a.out:
         from validation import save_json
         save_json(a.out, r)

@@ -18,7 +18,7 @@ def main():
             row = json.load(handle)["osz"]
         event, control = row["curve_event"], row["curve_control"]
         if len(event) != 61 or len(control) != 61:
-            raise ValueError("ETA figure requires two61-point curves at10ms frames")
+            raise ValueError("ETA figure requires two 61-point curves at 10 ms frames")
         result[label] = {"event": event, "control": control}
     save_json(args.out, result)
 

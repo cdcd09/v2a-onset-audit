@@ -55,13 +55,9 @@ class MMAudio(nn.Module):
                  use_student: bool = False,
                  student_dim: int = 1536,
                  student_seq_len: int = 392,
-                 # Initial value for the student_alpha residual gate. Default 0.0
-                 # follows DiT zero-init convention, but in practice the gate
-                 # often stays near zero and the student path is ignored.
-                 # Set to 1.0 to bypass zero-init and force the student to
-                 # contribute from step 0 (lets gradients shape both paths jointly).
+                 # Residual-gate initialization; the paper's student runs use 1.0.
                  student_alpha_init: float = 0.0,
-                 # Tier-2 auxiliary onset-distillation head (only sensible when
+                 # Auxiliary onset-distillation head (only sensible when
                  # use_student=True AND student variant produces 1-D onset logits)
                  use_aux_onset_loss: bool = False,
                  # Position D: add Student as a 4th modality stream in joint
@@ -75,7 +71,7 @@ class MMAudio(nn.Module):
                  scalo_dim: int = 64,
                  scalo_seq_len: int = 392,
                  scalo_alpha_init: float = 0.0,
-                 # Tier-2 style scalogram distillation. Predict scalogram from
+                 # Auxiliary scalogram distillation. Predict scalogram from
                  # the model's final latent and MSE against GT. Lets training
                  # benefit from GT-audio scalogram WITHOUT requiring it at
                  # inference (silent-video deployment). Independent of use_scalo.
@@ -214,8 +210,7 @@ class MMAudio(nn.Module):
 
         # ---- CMOD Student conditioning (Position B: residual into c_f) ----
         # Project D_s -> hidden_dim with the same conv-MLP recipe used for sync.
-        # alpha is a learnable scalar gate, init=0 so the model starts identical
-        # to the no-Student baseline; alpha grows during training if Student helps.
+        # initialize_weights applies student_alpha_init to the learnable gate.
         if self.use_student:
             self.student_input_proj = nn.Sequential(
                 ChannelLastConv1d(self._student_dim, hidden_dim, kernel_size=7, padding=3),
@@ -241,7 +236,7 @@ class MMAudio(nn.Module):
                 torch.zeros(1, self._scalo_dim), requires_grad=True
             )
 
-        # ---- Tier-2 style scalogram distillation head ----
+        # ---- Auxiliary scalogram distillation head ----
         # Predicts scalogram from the model's final latent. Supervised against
         # the GT-audio scalogram. Lets the model leverage scalogram info during
         # training without needing scalogram at inference (silent-video OK).
@@ -253,7 +248,7 @@ class MMAudio(nn.Module):
                 nn.Linear(hidden_dim // 2, self._scalo_dim),
             )
 
-        # ---- Tier-2 auxiliary onset head ----
+        # ---- Auxiliary onset head ----
         # Predicts onset logits from the model's final latent hidden state.
         # Supervised against the Student's onset logits (downsampled to latent_seq_len).
         self.use_aux_onset_loss = bool(use_aux_onset_loss) and self.use_student
@@ -332,9 +327,7 @@ class MMAudio(nn.Module):
         nn.init.constant_(self.empty_clip_feat, 0)
         nn.init.constant_(self.empty_sync_feat, 0)
 
-        # Student residual gate: alpha init from config (default 0.0 = DiT zero-init).
-        # 1.0 forces student to contribute from step 0 — useful when the gate
-        # would otherwise stay near zero (observed empirically with feat_tcn variant).
+        # Use the configured gate initialization; study configurations set 1.0.
         if getattr(self, 'use_student', False):
             nn.init.constant_(self.student_alpha, self._student_alpha_init)
             nn.init.constant_(self.empty_student_feat, 0.0)
@@ -343,11 +336,9 @@ class MMAudio(nn.Module):
             nn.init.constant_(self.empty_scalo_feat, 0.0)
 
     def normalize(self, x: torch.Tensor) -> torch.Tensor:
-        # return (x - self.latent_mean) / self.latent_std
         return x.sub_(self.latent_mean).div_(self.latent_std)
 
     def unnormalize(self, x: torch.Tensor) -> torch.Tensor:
-        # return x * self.latent_std + self.latent_mean
         return x.mul_(self.latent_std).add_(self.latent_mean)
 
     def preprocess_conditions(
@@ -448,7 +439,7 @@ class MMAudio(nn.Module):
 
         global_c = self.t_embed(t).unsqueeze(1) + global_c.unsqueeze(1)  # (B, D)
         extended_c = global_c + sync_f
-        # Position B: residual from CMOD Student feature, gated by alpha (init 0).
+        # Position B: student residual, scaled by the learned alpha gate.
         if self._student_in_residual and conditions.student_f is not None:
             extended_c = extended_c + self.student_alpha * conditions.student_f
 
@@ -471,12 +462,12 @@ class MMAudio(nn.Module):
         for block in self.fused_blocks:
             latent = block(latent, extended_c, self.latent_rot)
 
-        # Tier-2: predict onset logits from the final hidden BEFORE the flow head.
+        # Predict onset logits from the final hidden BEFORE the flow head.
         aux_onset_logits: Optional[torch.Tensor] = None
         if self.use_aux_onset_loss:
             aux_onset_logits = self.onset_head(latent)  # (B, N=latent_seq_len, 1)
 
-        # Tier-2 style scalogram distillation prediction (also from final hidden).
+        # Auxiliary scalogram distillation prediction (also from final hidden).
         aux_scalo_pred: Optional[torch.Tensor] = None
         if self.use_scalo_aux_loss:
             x = latent.transpose(1, 2)                                       # (B, H, N)
@@ -485,7 +476,7 @@ class MMAudio(nn.Module):
             x = x.transpose(1, 2)                                            # (B, T_w, H)
             aux_scalo_pred = self.scalo_aux_head(x)                          # (B, T_w, D_w)
 
-        # should be extended_c; this is a minor implementation error #55
+        # Retain the upstream global_c convention for checkpoint compatibility.
         flow = self.final_layer(latent, global_c)  # (B, N, out_dim), remove t
         # Build aux dict and return tuple when any aux is active. Backward
         # compatibility: if only onset is active, return (flow, onset) as before.
@@ -615,7 +606,7 @@ class MMAudio(nn.Module):
                 if (k.startswith('joint_blocks.') and '.student_block.' in k
                         and self._student_in_joint):
                     return True
-                # CMOD Position B params (zero-init) — expected missing from vanilla MMAudio ckpt
+                # New student parameters may be absent from an upstream checkpoint.
                 if self.use_student and (k.startswith('student_') or k == 'empty_student_feat'):
                     return True
                 return False

@@ -45,6 +45,7 @@ def main():
     axes[0].set_ylabel("onset-strength (z)", fontsize=8)
     axes[0].legend(fontsize=7, frameon=False, loc="upper left")
     fig.tight_layout()
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(a.out, bbox_inches="tight")
     print(f"wrote {a.out}")
 

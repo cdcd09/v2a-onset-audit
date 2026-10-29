@@ -34,9 +34,8 @@ GH_ROOT = Path(os.environ.get("V2A_GH_ROOT", str(DATA_ROOT / "greatest_hits")))
 VGG_ROOT = Path(os.environ.get("V2A_VGG_ROOT", str(DATA_ROOT / "vggsound")))
 GEN_ROOT = Path(os.environ.get("V2A_GEN_ROOT", str(DATA_ROOT / "generated")))
 
-# Audio and framing constants. These define the measurement grid and are fixed
-# across every experiment in the paper; changing them invalidates comparison
-# with the reported numbers.
+# Envelope measurements use 16 kHz audio and 10 ms frames. The event detector
+# separately preserves its original 22,050 Hz sampling rate.
 SR = 16_000          # sample rate (Hz)
 HOP = 160            # envelope hop (samples) -> 10 ms frames
 DURATION = 8.0       # clip duration (s); reference onsets beyond this are dropped

@@ -4,7 +4,7 @@ Left: the signed discrepancy between matched onsets, which is what rules out a
 systematic offset between annotators. Right: per-clip onset counts, which is
 what shows the two lanes segment the clips the same way.
 
-    python figures/plot_annotation_agreement.py \
+    python -m figures.plot_annotation_agreement \
         --csv /path/to/downloaded-release/metadata/annotation_lanes.csv \
         --out outputs/annotation_agreement.pdf
 """
@@ -81,6 +81,7 @@ def main():
         ax.tick_params(labelsize=8)
         ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(a.out, bbox_inches="tight")
     print(f"wrote {a.out}  (n={len(dt)} matched pairs, {len(both)} clips)")
 

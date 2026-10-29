@@ -35,18 +35,14 @@ import config as C
 # ---------------------------------------------------------------------------
 # Detection and non-maximum suppression.
 #
-# These two functions are the reference implementation used by prior V2A work
-# (originally from CondFoleyGen's predict_onset.py) and are reproduced here
-# unchanged, including two details that matter for exact comparability:
+# Adapted from CondFoleyGen's predict_onset.py. Preserve two protocol details:
 #
 #   1. audio is loaded at 22.05 kHz, not at the 16 kHz the models generate at;
 #   2. `onset_nms` mutates `onset_remain` while iterating over it, so the
 #      suppression is not exhaustive.
 #
-# Both are properties of the published protocol rather than choices of ours.
-# Re-implementing them "correctly" changes every reported onset number, so the
-# release keeps them as they are; the tolerance decomposition of Sec. 3.1 is
-# unaffected because it varies only the matching tolerance on the same peaks.
+# Confidence windows are clipped at the waveform boundary so early onsets
+# do not produce an empty negative-index slice. The NMS iteration is unchanged.
 # ---------------------------------------------------------------------------
 DETECT_SR = 22050
 CONF_INTERVAL = int(0.05 * DETECT_SR)
@@ -64,7 +60,9 @@ def detect_onsets(path, delta):
 
 def onset_nms(onsets, wav_norm, window=0.05):
     """Reference NMS. See the note above before changing anything here."""
-    confidence = [np.max(wav_norm[o - CONF_INTERVAL:o + CONF_INTERVAL]) for o in onsets]
+    confidence = [np.max(wav_norm[max(0, o - CONF_INTERVAL):
+                                  min(len(wav_norm), o + CONF_INTERVAL)])
+                  for o in onsets]
     onset_remain = onsets.tolist()
     output = []
     for idx in np.argsort(confidence)[::-1]:

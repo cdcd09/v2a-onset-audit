@@ -5,8 +5,9 @@ two others, which is not independent re-annotation and so yields no agreement
 statistic. Two annotators therefore re-annotated the whole clip set in separate
 lanes, each working from the video with the released timestamps hidden and
 without sight of the other lane. This script scores one lane against the other,
-and each lane against the release, with the greedy nearest matching used
-everywhere else in the paper.
+and each lane against the release. Candidate pairs are sorted globally by
+absolute time difference with an inclusive tolerance boundary. The model event
+scorer instead visits reference onsets in order with a strict boundary.
 
 Input is a long-format CSV with one row per (clip, source):
 

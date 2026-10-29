@@ -19,8 +19,6 @@ class FlowMatching:
         self.inference_mode = inference_mode
         self.num_steps = num_steps
 
-        # self.fm = ExactOptimalTransportConditionalFlowMatcher(sigma=min_sigma)
-
         assert self.inference_mode in ['euler', 'adaptive']
         if self.inference_mode == 'adaptive' and num_steps > 0:
             log.info('The number of steps is ignored in adaptive inference mode ')

@@ -3,7 +3,7 @@
 Reads the JSON written by `analysis.benchmark_stats` and draws the head of the
 class distribution plus a single bar for the tail.
 
-    python figures/plot_class_distribution.py \
+    python -m figures.plot_class_distribution \
         --stats outputs/benchmark_stats.json --out outputs/class_distribution.pdf
 """
 import argparse, json
@@ -49,6 +49,7 @@ def main():
     ax.tick_params(labelsize=8)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(a.out, bbox_inches="tight")
     print(f"wrote {a.out}  (head {sum(n for _,n in top)} clips, "
           f"tail {n_tail_clips} clips in {n_tail_cls} classes)")

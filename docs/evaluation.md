@@ -54,7 +54,7 @@ python -m eval.onset_metrics \
   --gen_dir "$V2A_DATA_ROOT/generated/vanilla_10000/gh" \
   --split gh --out outputs/vanilla_10000_onset.json
 
-python -m eval.delta_sweep --workers 2 --check-reference \
+python -m eval.delta_sweep --workers 2 --check-reference --reference-atol 0.001 \
   --out outputs/delta_sweep.json
 ```
 
@@ -85,6 +85,11 @@ At delta 0.3, the endpoint check expects:
 | vanilla 150K | 0.2079 | 0.4987 | 0.7640 |
 
 The sweep checks delta 0.15, 0.20, 0.30, 0.40, and 0.50 at these two endpoints.
+`--reference-atol 0.001` permits small numerical differences between platforms;
+the report retains both measured values and exact-match status. Omit it for exact
+agreement with the rounded reference values. On Windows with the pinned packages,
+the 150K F1@50 ms was 0.2071 (difference 0.0008); the other five values matched.
+The six V266 endpoint F1 values differed from the archived grid by at most 0.0009.
 It does not validate every trajectory point or measure perceptual event presence.
 
 ## Benchmark statistics and annotation agreement
@@ -135,10 +140,13 @@ not perceptual sound quality or causal mechanisms.
 
 ## Supported scope
 
-The evaluation tools were checked on Linux x86_64 with CPython 3.11.11 and the pinned
-dependencies. Seven regression tests, endpoint threshold checks, metadata/agreement
-calculations, ETA curves, and a cross-correlation run were checked on the preparation host.
-Other operating systems and numerical dependency versions are not part of that verification.
+The preparation host used Linux x86_64 with CPython 3.11.11 and the pinned dependencies
+for regression tests, endpoint threshold checks, metadata/agreement calculations, ETA,
+and cross-correlation. A fresh Windows CPython 3.11.11 environment additionally passed
+eight regression tests, metadata/audio setup, benchmark/agreement calculations, and
+the endpoint sweep with the tolerance stated above. GH 10K ETA reproduced contrast
+11.913 and peak lag +70 ms. The boundary-safe NMS returned identical detections to
+the previous implementation on every nonempty endpoint/threshold combination (2,427).
 
 This repository does not provide FD feature extraction, the prior work's frame-onset metric,
 the complete pseudo-labeling ensemble, or a verified end-to-end training rerun.

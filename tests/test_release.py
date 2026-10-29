@@ -59,7 +59,7 @@ class LegacyProtocol(unittest.TestCase):
         wave[1500] = 1.
         wave[3500] = .5
         # Legacy list mutation skips the second suppressed candidate. An exhaustive
-        # rewrite would return only2000 and fail this compatibility regression.
+        # rewrite would return only 2000 and fail this compatibility regression.
         self.assertEqual(metrics.onset_nms(np.array([2000,3000,4000]), wave, window=.12).tolist(),
                          [2000,4000])
 
@@ -74,6 +74,13 @@ class LegacyProtocol(unittest.TestCase):
                 result = metrics.score(root, {"clip": [.05]}, .3, rise=False)
             self.assertEqual(result["f1@50"], 0.)
             self.assertEqual(result["f1@100"], 1.)
+
+    def test_nms_confidence_windows_at_audio_boundaries(self):
+        wave = np.zeros(6000)
+        wave[100] = 1.
+        wave[5999] = .5
+        self.assertEqual(metrics.onset_nms(np.array([100,5999]), wave).tolist(),
+                         [100,5999])
 
 
 if __name__ == "__main__":

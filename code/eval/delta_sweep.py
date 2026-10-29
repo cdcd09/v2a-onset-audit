@@ -46,8 +46,12 @@ def main():
     parser.add_argument("--workers", type=int, choices=(1, 2), default=2)
     parser.add_argument("--out", type=Path, default=Path("outputs/delta_sweep.json"))
     parser.add_argument("--check-reference", action="store_true",
-                        help="Fail unless delta=.3 reproduces all six published endpoint F1 values")
+                        help="Check all six published endpoint F1 values at delta=.3")
+    parser.add_argument("--reference-atol", type=float, default=0.0,
+                        help="Absolute F1 tolerance for reference checks (default: exact rounded agreement)")
     args = parser.parse_args()
+    if not 0 <= args.reference_atol < float("inf"):
+        parser.error("reference-atol must be finite and nonnegative")
     if len(args.deltas) != len(set(args.deltas)) or any(d < 0 for d in args.deltas):
         parser.error("deltas must be unique nonnegative values")
     if args.check_reference and .3 not in args.deltas:
@@ -66,7 +70,10 @@ def main():
     rows.sort(key=lambda r: (r["delta"], r["step"]))
     checks = [{"step": r["step"], "expected": EXPECTED[r["step"]],
                "observed": {k: r[k] for k in EXPECTED[r["step"]]},
-               "matches": all(r[k] == v for k, v in EXPECTED[r["step"]].items())}
+               "exact_matches": all(r[k] == v for k, v in EXPECTED[r["step"]].items()),
+               "absolute_tolerance": args.reference_atol,
+               "matches": all(abs(r[k] - v) <= args.reference_atol + 1e-12
+                              for k, v in EXPECTED[r["step"]].items())}
               for r in rows if r["delta"] == .3]
     source_root = Path(__file__).resolve().parents[1]
     hashes = {str(p.relative_to(source_root)): hashlib.sha256(p.read_bytes()).hexdigest()

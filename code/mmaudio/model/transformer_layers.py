@@ -27,9 +27,8 @@ def modulate(x: torch.Tensor, shift: torch.Tensor, scale: torch.Tensor):
 
 
 def attention(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor):
-    # training will crash without these contiguous calls and the CUDNN limitation
-    # I believe this is related to https://github.com/pytorch/pytorch/issues/133974
-    # unresolved at the time of writing
+    # Keep contiguous inputs for SDPA backend compatibility (upstream workaround):
+    # https://github.com/pytorch/pytorch/issues/133974
     q = q.contiguous()
     k = k.contiguous()
     v = v.contiguous()
