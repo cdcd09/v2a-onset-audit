@@ -21,6 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 Scope: original code and documentation. Third-party code retains the notices
-in THIRD_PARTY_NOTICES.md and third_party/. Numerical records and annotations
-in results/ and verification/ are CC BY 4.0; see DATA_LICENSE.md. This MIT
+in docs/licenses/. Author-created figures and numerical summaries are CC BY 4.0;
+see docs/licenses/README.md. This MIT
 license does not license external recordings, pretrained weights, or datasets.
