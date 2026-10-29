@@ -4,6 +4,11 @@
   "hash_algorithm": "sha256",
   "files": [
     {
+      "path": ".gitattributes",
+      "bytes": 87,
+      "sha256": "941782c67d086e817c9af7a31e75d0c70e13988de2c978bc581bb8cff1b0af22"
+    },
+    {
       "path": ".gitignore",
       "bytes": 82,
       "sha256": "03da8438283ca045784075de903eaa0443e1b8735d96e7e5441fd307e1fdebcd"
@@ -319,7 +324,7 @@
       "sha256": "5e4e389302270117424bd57af47b9a354b0c9d7f327f7ba130e9bf6f4fa95367"
     }
   ],
-  "file_count": 63,
-  "total_bytes": 284398,
+  "file_count": 64,
+  "total_bytes": 284485,
   "scope": "Local prepared release; manifest excludes itself and upload cache."
 }

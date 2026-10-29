@@ -1,0 +1,2 @@
+# Preserve the exact bytes recorded in release_manifest.json on all platforms.
+* -text
