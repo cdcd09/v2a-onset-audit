@@ -33,8 +33,28 @@ not an inference-quality test. Programmatic loading is available through
 
 The student and fullstack configurations use `student_alpha_init=1.0`,
 `freeze_student_with_sync=true`, and a freeze trigger at 20K. Loading weights restores the
-trained gate value. A gradient-zeroing hook under AdamW does not imply immediate numerical
-freezing; the paper distinguishes raw parameter checks from EMA behavior.
+trained gate value. For the synchronization-only freeze, raw-weight audits establish
+effective freezing under AdamW: after the 20K–40K transient, all six target tensors are
+identical at 40K, 70K, 100K, and 150K. The cached evaluation EMA (`sigma=0.05`) changes
+by at most `2.35e-8` across the retained 40K/150K pair **before BF16 conversion**;
+this comparison concerns the six freeze-target tensors, not the entire model.
+
+## Reported training settings
+
+All five Table 4 configurations use MMAudio-S-16kHz trained from scratch and are compared
+every 10K steps over 10K–150K with evaluation EMA `sigma=0.05` and CFG 4.5.
+
+| Paper configuration | Run ID | Seed | Effective batch | Training intervention |
+| --- | --- | --- | --- | --- |
+| Unmodified | `vanilla` | Different from the intervention runs | 504 | Unmodified reference |
+| + curation | `curated` | 42 | 512 | Curated training corpus |
+| + curation + injection | `stage1freeze` | 42 | 512 | Position-B student conditioning; synchronization/student gradient suppression from 20K |
+| + curation + injection + auxiliary loss | `fullstack` | 42 | 512 | Same conditioning; auxiliary onset-loss weight 0.1 |
+| + curation + freeze | `syncfreeze` | 42 | 512 | Synchronization-only gradient suppression from 20K |
+
+These settings describe the paper's runs. The compact repository provides model and
+evaluation utilities, not a training entry point. The fully matched freeze comparison
+is `syncfreeze` versus `curated`; use the inference conditions below for the injection rows.
 
 ## Inference conditions
 
@@ -64,6 +84,18 @@ checkpoints plus an explicit schedule (`sigma_rels`, `update_every`, `checkpoint
 `checkpoint_folder`). A final inference checkpoint alone is insufficient. Use trusted local
 checkpoints, and record the extraction method alongside your exported file.
 
-The study has one run per configuration. Intervention runs share a training seed; the vanilla
-reference differs in seed and batch size. The included utilities do not constitute a complete
-training pipeline. Original project attributions are in [licenses/README.md](licenses/README.md).
+For a compatible local EMA basis and its recorded schedule:
+
+```bash
+python -m pip install -e '.[models,ema]'
+python -m mmaudio.utils.ema_export \
+  --input ema_schedule.json --synthesize --run syncfreeze --sigma 0.05 --step 150000 \
+  --out outputs/syncfreeze_150000_ema_sigma005.safetensors
+```
+
+`ema_schedule.json` must contain the original schedule values and the basis directory;
+it is not supplied as a generic training recipe. Here `--step` is the EMA basis step,
+which must correspond to the requested paper checkpoint. The script validates exported
+keys and shapes; synthesis additionally depends on the caller's complete EMA basis.
+
+Original project attributions are in [licenses/README.md](licenses/README.md).

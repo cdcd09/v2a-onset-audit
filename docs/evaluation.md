@@ -138,6 +138,25 @@ The white-noise control retains its original per-ID Python-hash seed; set `PYTHO
 when using `--noise white`. ETA and cross-correlation characterize measured envelopes,
 not perceptual sound quality or causal mechanisms.
 
+## Paper-table index
+
+Paths below are relative to the downloaded companion dataset. This index separates
+released numerical records from commands that recompute measurements from audio.
+
+| Main-paper table | Released records | Evaluation entry point / scope |
+| --- | --- | --- |
+| 1 — Full-budget event-F1 erosion | `metrics/legacy_full_budget_metrics.csv`, `metrics/legacy_run_registry.json` | Archived full-budget trajectories; `eval.onset_metrics` evaluates the released 10K/150K audio with the documented event protocol, rather than rebuilding the historical table. |
+| 2 — Pseudo-label quality | `metrics/paper_numeric_audit.csv` (audited zero-shot and two-detector rows), `metadata/v266_detector_rule_split.csv` | The full detector ensemble is outside this code package; `analysis.annotation_agreement` measures human agreement and does not reproduce Table 2. |
+| 3 — Validation checkpoint selection | `metrics/validation_scores.csv`, `metrics/checkpoint_metrics.csv` | Select maximum validation frame F1 within each run, then read test frame F1 and FD-PaSST from that same checkpoint; the FD penalty is relative to that run at 150K. |
+| 4 — Matched-budget comparison | `metrics/checkpoint_metrics.csv`, `metrics/run_registry.json` | Average stored GH frame F1 over the shared 15-checkpoint grid, then compute paired differences and positive-sign counts. The event scorer is a separate metric. |
+| 5 — Released-checkpoint contrast | `metrics/instrument_metrics.csv`, `metrics/checkpoint_metrics.csv`, `metrics/paper_numeric_audit.csv` | `instrument.eta` and `eval.envelope_xcorr` recompute envelope measurements for available audio; cross-correlation also requires reference WAVs. External-model waveforms and the original frame-F1 scorer are not bundled. |
+
+The commands in [onset scoring](#event-onset-scores) and [detector-free measurements](#detector-free-measurements)
+cover the two released audio endpoints. Read `metrics/schema.json` before aggregating:
+legacy/current protocols, frame/event F1, and different envelope-instrument versions are
+distinct. Missing entries remain missing; use the audited Table 5 values from
+`paper_numeric_audit.csv` for reference frame F1 and released-MMAudio cross-correlation.
+
 ## Supported scope
 
 The preparation host used Linux x86_64 with CPython 3.11.11 and the pinned dependencies

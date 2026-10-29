@@ -34,7 +34,9 @@ original recordings, and model weights are not included.
 
 ## Installation
 
-The evaluation environment was verified on **Linux, Python 3.11.11**.
+The evaluation environment was verified on **Linux, Python 3.11.11**, with pinned
+dependencies in `requirements.txt`. The evaluation commands below run on CPU;
+optional model utilities use [PyTorch 2.6.0](docs/models.md#install-optional-dependencies).
 
 ```bash
 git clone https://github.com/cdcd09/v2a-onset-audit.git
@@ -79,7 +81,9 @@ python -m eval.onset_metrics \
 
 The [evaluation guide](docs/evaluation.md) covers threshold sensitivity, annotation agreement,
 event-triggered averaging, cross-correlation, and figures. The [model guide](docs/models.md)
-covers weight checks and latent sampling.
+covers weight checks, latent sampling, and the [reported training settings](docs/models.md#reported-training-settings).
+Use the [paper-table index](docs/evaluation.md#paper-table-index) to locate each table's
+released measurements and the corresponding supported evaluation commands.
 
 This release supports evaluation and analysis. Full training and raw-video-to-waveform
 inference have not been verified with this code snapshot.
