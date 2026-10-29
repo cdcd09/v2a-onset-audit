@@ -4,7 +4,7 @@ Reports what the main text promises the supplement will contain: how many
 classes the 266 clips span, how onsets are distributed over clips, and why
 scoring uses 263 of them.
 
-    python -m analysis.benchmark_stats --out ../results/benchmark_stats.json
+    python -m analysis.benchmark_stats --out outputs/benchmark_stats.json
 """
 import argparse, csv, json, sys
 from collections import Counter

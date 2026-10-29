@@ -4,7 +4,7 @@ Reads the JSON written by `analysis.benchmark_stats` and draws the head of the
 class distribution plus a single bar for the tail.
 
     python figures/plot_class_distribution.py \
-        --stats ../results/benchmark_stats.json --out figures/fig_class_distribution.pdf
+        --stats outputs/benchmark_stats.json --out outputs/class_distribution.pdf
 """
 import argparse, json
 from pathlib import Path

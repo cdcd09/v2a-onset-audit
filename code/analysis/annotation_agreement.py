@@ -17,7 +17,8 @@ semicolon-separated list of times in seconds. Clips a lane marks unusable carry
 no onsets, and agreement is computed on the clips both lanes accept.
 
     python -m analysis.annotation_agreement \
-        --csv ../results/annotation_lanes.csv --out ../results/annotation_agreement.json
+        --csv /path/to/downloaded-release/metadata/annotation_lanes.csv \
+        --out outputs/annotation_agreement.json
 
 No scoring window is applied: unlike the model scores, this measures the
 annotation itself, so every annotated onset participates.

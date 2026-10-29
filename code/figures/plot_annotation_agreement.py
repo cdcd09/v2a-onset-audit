@@ -5,7 +5,8 @@ systematic offset between annotators. Right: per-clip onset counts, which is
 what shows the two lanes segment the clips the same way.
 
     python figures/plot_annotation_agreement.py \
-        --csv ../results/annotation_lanes.csv --out figures/fig_annotation_agreement.pdf
+        --csv /path/to/downloaded-release/metadata/annotation_lanes.csv \
+        --out outputs/annotation_agreement.pdf
 """
 import argparse, csv
 from pathlib import Path
