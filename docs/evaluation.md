@@ -1,8 +1,8 @@
 # Data preparation and evaluation
 
 Run all commands from the repository root after the installation in the [README](../README.md).
-The companion dataset is not public yet. Commands below that use `RELEASE_ROOT` require the
-separate data package; the download link will be added to the README when available.
+Download the [companion dataset](https://huggingface.co/datasets/junhob/v2a-onset-audit).
+Commands below use `RELEASE_ROOT` for that download and `V2A_DATA_ROOT` for extracted inputs.
 
 ## Prepare data
 
@@ -16,7 +16,7 @@ python scripts/setup_data.py --release-root "$RELEASE_ROOT" --data-root "$V2A_DA
 
 # Vanilla 10K and 150K endpoint audio used in the examples below.
 python scripts/setup_data.py --release-root "$RELEASE_ROOT" --data-root "$V2A_DATA_ROOT" \
-  --audio-shard audio_vanilla_00.tar --audio-shard audio_vanilla_02.tar
+  --audio-shard audio_vanilla_10000.tar --audio-shard audio_vanilla_150000.tar
 ```
 
 The default setup installs benchmark annotations and GH validation/test IDs, without generated
@@ -40,8 +40,12 @@ data/
 ```
 
 `V2A_GH_ROOT`, `V2A_VGG_ROOT`, and `V2A_GEN_ROOT` can override individual directories.
-Original video and reference audio must be obtained under their source dataset terms.
-They are not needed to score onsets in the generated audio.
+Original videos and recorded audio are not redistributed. Obtain GH media from the
+[original project](https://andrewowens.com/vis/). VGGSound clips are identified by
+`clip_id` (file stem), `youtube_id`, and `segment_start_s` in the companion dataset
+(`metadata/v266_clip_metadata.csv`); see the
+[VGGSound repository](https://github.com/hche11/VGGSound). Follow the original media terms.
+Source recordings are not needed to score onsets in the generated audio.
 
 ## Event-onset scores
 
@@ -54,8 +58,9 @@ python -m eval.delta_sweep --workers 2 --check-reference \
   --out outputs/delta_sweep.json
 ```
 
-For V266, extract the corresponding audio shard and use `--split wild` with a
-`generated/<run>_<step>/v266` directory.
+Both endpoint archives contain GH and V266. For V266, use `--split wild` with
+`generated/vanilla_10000/v266` or `generated/vanilla_150000/v266`. Only these two
+conditions include waveforms; all 99 conditions include detected onsets and envelope features.
 
 The event detector uses mono **22,050 Hz** audio, the original non-exhaustive NMS, and
 greedy one-to-one matching with strict `abs(prediction - reference) < tolerance`.

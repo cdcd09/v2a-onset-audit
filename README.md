@@ -23,12 +23,14 @@ inference-condition details are described in [the model guide](docs/models.md#in
 
 - [x] Evaluation and analysis code
 - [x] Model architecture and weight-loading utilities
-- [ ] Benchmark annotations and companion data download
+- [x] Benchmark annotations and companion data download
 - [ ] Public paper link
 
-The companion data package is being prepared for Hugging Face. Its download link will be
-added here once available. Commands requiring annotations, generated audio, or weights need
-that separate package.
+**[Download the companion dataset on Hugging Face](https://huggingface.co/datasets/junhob/v2a-onset-audit)**
+
+It includes annotations, curation records, evaluation tables, analysis features for 99
+conditions, and representative generated audio for vanilla 10K/150K. Source videos,
+original recordings, and model weights are not included.
 
 ## Installation
 
@@ -49,8 +51,8 @@ Run subsequent commands from the repository root. Model utilities have separate
 
 ## Data
 
-The companion package provides annotations, split metadata, and generated-audio assets.
-After downloading it, install metadata and choose the audio shards needed for evaluation:
+Download the [companion dataset](https://huggingface.co/datasets/junhob/v2a-onset-audit),
+then install metadata and choose the generated-audio shards needed for evaluation:
 
 ```bash
 python scripts/setup_data.py --release-root /path/to/downloaded-release --data-root data
@@ -59,7 +61,10 @@ python scripts/setup_data.py --release-root /path/to/downloaded-release --data-r
 ```
 
 See [data preparation](docs/evaluation.md#prepare-data) for shard selection and directory
-layout. Original source videos and recordings are obtained from their respective datasets.
+layout. For original media, use the [Greatest Hits project](https://andrewowens.com/vis/).
+For VGGSound, we provide **clip IDs/file stems, YouTube IDs, and start times**, plus our
+onset annotations; see the [original repository](https://github.com/hche11/VGGSound).
+We do not mirror either dataset's source videos or recorded soundtracks.
 
 ## Evaluation
 

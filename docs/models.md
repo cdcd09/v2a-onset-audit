@@ -4,8 +4,9 @@ The [MMAudio-derived architecture](../code/mmaudio/) includes the scalar student
 and auxiliary-onset modules used in this study. Constructor settings are in
 [`configs/model_configs.json`](../configs/model_configs.json).
 
-Model weights are part of the planned companion data release, not this Git repository.
-The following tools require those weights or your own compatible local checkpoint.
+Model weights are not included in this compact release. The following utilities are
+provided for users with their own compatible local checkpoints; the released predictions,
+features, and two generated-audio endpoints can be analyzed without weights.
 
 ## Install optional dependencies
 
@@ -24,7 +25,7 @@ python -m mmaudio.utils.release_weights \
   --out outputs/curated_weight_schema.json
 ```
 
-Use the exact filename in the data package's weight manifest. The utility checks model
+Replace the example path with your compatible checkpoint. The utility checks model
 state keys and shapes on the PyTorch meta device and hashes the file. This is a schema check,
 not an inference-quality test. Programmatic loading is available through
 `load_model(path, model_config("configs/model_configs.json", run))` in
@@ -58,7 +59,7 @@ The utility supports direct tensor-state conversion and optional post-hoc EMA sy
 For synthesis, install `python -m pip install -e '.[ema]'` and provide the original EMA basis
 checkpoints plus an explicit schedule (`sigma_rels`, `update_every`, `checkpoint_every`,
 `checkpoint_folder`). A final inference checkpoint alone is insufficient. Use trusted local
-checkpoints, and retain the extraction method recorded in the asset manifest.
+checkpoints, and record the extraction method alongside your exported file.
 
 The study has one run per configuration. Intervention runs share a training seed; the vanilla
 reference differs in seed and batch size. The included utilities do not constitute a complete

@@ -21,9 +21,9 @@
       "sha256": "816baf76047c6b16fb0a6703a7e19110ae4959f113596230a7f598dc2ebf14f9"
     },
     "assets/audio_manifest.json": {
-      "bytes": 90176,
-      "sha256": "f7283a9e54ebae3f9c622f23d8631306907a724cc5fb7828dcd3e413bd471eba"
+      "bytes": 2906,
+      "sha256": "792e5518e36dbcf0f199460c8dd9a54897e2980011f60b1c0f9cd444fdaf2f62"
     }
   },
-  "scope": "Exact metadata and asset-index revision paired with this code release."
+  "scope": "Exact metadata and two-endpoint audio-index revision paired with the compact dataset release."
 }
