@@ -111,7 +111,7 @@ Code is licensed under MIT; see [component licenses and attribution](docs/licens
 ## Citation
 
 ```bibtex
-@inproceedings{byun2027training,
+@inproceedings{jhbyun2027syncfreeze,
   title={Training Refines Onset Placement but Erodes Event Correspondence:
          A Full-Trajectory Audit of Video-to-Audio Onset Alignment},
   author={Byun, JoonHo and Kim, Taegon and Park, Juyeon and Park, Unsang},
